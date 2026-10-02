@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Reference Express membantu menemukan, memeriksa, dan memahami referensi ilmiah.">
+  <title>Reference Express | Temukan Referensi Ilmiah</title>
+  <style>
+    :root {
+      --primary: #2457d6; --primary-dark: #173da3; --navy: #14213d;
+      --muted: #68758a; --light: #f5f8ff; --border: #e5eaf3;
+      --white: #ffffff; --green: #16845b; --radius: 18px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 85px; }
+    body { font-family: Arial, Helvetica, sans-serif; color: var(--navy); background: var(--white); line-height: 1.6; }
+    a { color: inherit; text-decoration: none; }
+    button, input, select, textarea { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    .container { width: min(1120px, 90%); margin: auto; }
+    .navbar { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,.96); border-bottom: 1px solid var(--border); backdrop-filter: blur(12px); }
+    .nav-inner { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .logo { display: flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 800; letter-spacing: -.6px; }
+    .logo-icon { width: 42px; height: 42px; display: grid; place-items: center; background: var(--primary); color: white; border-radius: 13px; font-size: 22px; }
+    .logo span:last-child { color: var(--primary); }
+    .nav-links { display: flex; align-items: center; gap: 27px; font-size: 14px; font-weight: 600; color: #536078; }
+    .nav-links a:hover { color: var(--primary); }
+    .btn { border: 0; display: inline-flex; justify-content: center; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 11px; font-weight: 700; cursor: pointer; transition: .2s; }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
+    .btn-outline { color: var(--primary); border: 1px solid #cbd8fb; background: white; }
+    .btn-outline:hover { background: #f0f4ff; }
+    .menu-toggle { display: none; background: white; border: 1px solid var(--border); border-radius: 10px; padding: 8px 12px; cursor: pointer; }
+    .hero { padding: 90px 0 75px; background: radial-gradient(ellipse at 85% 20%, #dce8ff 0, transparent 38%), linear-gradient(135deg, #f8faff, #edf3ff); overflow: hidden; }
+    .hero-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 55px; align-items: center; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; padding: 7px 13px; border: 1px solid #d7e2ff; border-radius: 30px; background: white; color: var(--primary); font-size: 12px; font-weight: 700; margin-bottom: 23px; }
+    .hero h1 { font-size: clamp(38px, 5vw, 61px); line-height: 1.12; letter-spacing: -2px; margin-bottom: 23px; }
+    .hero h1 span { color: var(--primary); }
+    .hero p { max-width: 550px; color: var(--muted); font-size: 17px; margin-bottom: 27px; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    .hero-note { margin-top: 20px; font-size: 12px; color: var(--muted); }
+    .preview { background: white; border: 1px solid #e3e9f5; border-radius: 22px; padding: 23px; box-shadow: 0 25px 70px #243f7715; transform: rotate(1deg); }
+    .preview-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .preview-top strong { font-size: 15px; }
+    .status { background: #e7f7ef; color: var(--green); padding: 5px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+    .paper { border: 1px solid var(--border); padding: 18px; border-radius: 13px; margin-bottom: 13px; }
+    .paper-tag { color: var(--primary); font-size: 11px; font-weight: 700; margin-bottom: 8px; }
+    .paper h3 { font-size: 15px; line-height: 1.45; margin-bottom: 8px; }
+    .paper p { font-size: 12px; margin: 0; }
+    .highlight { background: #fff0ad; padding: 2px 3px; border-radius: 3px; color: #514315; }
+    .preview-bottom { display: flex; justify-content: space-between; gap: 10px; padding-top: 5px; color: var(--muted); font-size: 12px; }
+    section { padding: 78px 0; }
+    .section-heading { text-align: center; max-width: 690px; margin: 0 auto 42px; }
+    .section-heading .eyebrow { margin-bottom: 13px; }
+    .section-heading h2 { font-size: clamp(27px, 3.5vw, 39px); line-height: 1.2; letter-spacing: -.8px; margin-bottom: 13px; }
+    .section-heading p { color: var(--muted); font-size: 15px; }
+    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .feature-card { padding: 27px; border: 1px solid var(--border); border-radius: var(--radius); background: white; transition: .2s; }
+    .feature-card:hover { transform: translateY(-4px); box-shadow: 0 14px 35px #1c36700c; border-color: #c9d7ff; }
+    .feature-icon { width: 49px; height: 49px; display: grid; place-items: center; background: #edf2ff; color: var(--primary); border-radius: 14px; font-size: 23px; margin-bottom: 19px; }
+    .feature-card h3 { font-size: 17px; margin-bottom: 9px; }
+    .feature-card p { color: var(--muted); font-size: 14px; }
+    .search-section, .packages { background: var(--light); }
+    .search-box { max-width: 850px; margin: 0 auto 25px; padding: 20px; border: 1px solid var(--border); border-radius: 18px; background: white; box-shadow: 0 12px 35px #183c7c08; }
+    .search-main { display: flex; gap: 10px; }
+    .search-main input { flex: 1; min-width: 0; border: 1px solid var(--border); border-radius: 10px; padding: 14px; outline: none; }
+    input:focus, select:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px #2457d61a; }
+    .filters { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+    .filters select { width: 100%; border: 1px solid var(--border); border-radius: 10px; padding: 12px; background: white; color: #526078; outline: none; }
+    .demo-note { text-align: center; color: var(--muted); font-size: 12px; margin: 13px 0 30px; }
+    .results-header { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-bottom: 17px; }
+    .results-header h3 { font-size: 19px; }
+    .results-header span { color: var(--muted); font-size: 13px; }
+    .results-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 17px; }
+    .result-card { padding: 23px; border: 1px solid var(--border); border-radius: 15px; background: white; }
+    .result-top { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
+    .tag { display: inline-block; padding: 5px 9px; border-radius: 7px; background: #edf2ff; color: var(--primary); font-size: 11px; font-weight: 700; }
+    .result-card h3 { font-size: 16px; line-height: 1.5; margin-bottom: 9px; }
+    .result-meta { color: var(--muted); font-size: 12px; margin-bottom: 14px; }
+    .result-card > p { font-size: 13px; color: #56637a; margin-bottom: 17px; }
+    .result-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    .result-actions .btn { padding: 9px 12px; font-size: 12px; }
+    .download-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 9px 12px; border-radius: 11px; background: #16845b; color: white; font-size: 12px; font-weight: 700; transition: .2s; }
+    .download-btn:hover { background: #106b49; transform: translateY(-1px); }
+    .download-btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+    .empty-state { grid-column: 1 / -1; text-align: center; padding: 35px; color: var(--muted); background: white; border: 1px dashed #cbd5e5; border-radius: 15px; }
+    .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 23px; }
+    .step { text-align: center; padding: 20px 12px; }
+    .step-number { width: 53px; height: 53px; margin: 0 auto 18px; display: grid; place-items: center; border-radius: 50%; background: var(--primary); color: white; font-weight: 800; font-size: 19px; }
+    .step h3 { font-size: 16px; margin-bottom: 8px; }
+    .step p { color: var(--muted); font-size: 13px; }
+    .package-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: stretch; }
+    .package-card { padding: 29px; border: 1px solid var(--border); border-radius: 18px; background: white; display: flex; flex-direction: column; }
+    .package-card.featured { border: 2px solid var(--primary); box-shadow: 0 15px 35px #2457d610; }
+    .package-label { color: var(--primary); font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+    .package-card h3 { font-size: 23px; margin: 8px 0; }
+    .package-description { color: var(--muted); font-size: 13px; min-height: 43px; }
+    .package-price { font-size: 18px; font-weight: 800; margin: 20px 0; }
+    .package-price small { display: block; font-size: 12px; font-weight: 400; color: var(--muted); }
+    .package-card ul { list-style: none; margin-bottom: 25px; flex: 1; }
+    .package-card li { padding: 9px 0; border-bottom: 1px solid #f0f2f7; font-size: 13px; color: #536078; }
+    .package-card li::before { content: "✓"; color: var(--green); font-weight: 800; margin-right: 9px; }
+    .package-card .btn { width: 100%; }
+    .faq-list { max-width: 800px; margin: auto; }
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-question { width: 100%; display: flex; justify-content: space-between; gap: 15px; padding: 21px 0; background: transparent; border: 0; text-align: left; cursor: pointer; font-weight: 700; color: var(--navy); }
+    .faq-question span:last-child { color: var(--primary); font-size: 20px; }
+    .faq-answer { display: none; color: var(--muted); font-size: 14px; padding: 0 25px 20px 0; }
+    .faq-item.active .faq-answer { display: block; }
+    .cta { padding: 0 0 78px; }
+    .cta-box { background: linear-gradient(120deg, #1d48b5, #3478ed); border-radius: 24px; padding: 50px 30px; text-align: center; color: white; }
+    .cta-box h2 { font-size: clamp(26px, 4vw, 38px); margin-bottom: 13px; }
+    .cta-box p { max-width: 570px; margin: 0 auto 24px; color: #e1eaff; font-size: 14px; }
+    .cta-box .btn { background: white; color: var(--primary); }
+    footer { background: #101b33; color: white; padding: 43px 0 20px; }
+    .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; padding-bottom: 30px; }
+    .footer-brand p { color: #aebbd2; font-size: 13px; max-width: 330px; margin-top: 15px; }
+    footer h4 { margin-bottom: 13px; font-size: 14px; }
+    .footer-links { display: grid; gap: 9px; color: #b9c4d8; font-size: 13px; }
+    .footer-links a:hover { color: white; }
+    .copyright { border-top: 1px solid #ffffff1a; padding-top: 19px; color: #aebbd2; font-size: 12px; text-align: center; }
+    @media (max-width: 850px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+      .hero { padding: 65px 0; }
+      .preview { max-width: 570px; width: 100%; margin: auto; }
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .package-grid { grid-template-columns: 1fr; max-width: 520px; margin: auto; }
+      .steps { grid-template-columns: repeat(2, 1fr); }
+      .nav-links { display: none; position: absolute; top: 76px; left: 0; right: 0; background: white; padding: 20px 5%; border-bottom: 1px solid var(--border); flex-direction: column; align-items: stretch; gap: 17px; }
+      .nav-links.open { display: flex; }
+      .menu-toggle { display: block; }
+      .nav-cta { display: none; }
+    }
+    @media (max-width: 560px) {
+      section { padding: 60px 0; }
+      .hero h1 { letter-spacing: -1.3px; }
+      .hero p { font-size: 15px; }
+      .features-grid, .results-grid, .steps, .footer-grid { grid-template-columns: 1fr; }
+      .search-main { flex-direction: column; }
+      .search-main .btn { width: 100%; }
+      .filters { grid-template-columns: 1fr; }
+      .results-header { align-items: flex-start; flex-direction: column; }
+      .footer-grid { gap: 28px; }
+      .cta-box { padding: 38px 22px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a href="#beranda" class="logo"><span class="logo-icon">R</span><span>Reference <span>Express</span></span></a>
+      <nav class="nav-links" id="navLinks">
+        <a href="#beranda">Beranda</a><a href="#fitur">Fitur</a><a href="#referensi">Cari Referensi</a><a href="#layanan">Layanan</a><a href="#faq">FAQ</a>
+      </nav>
+      <a href="#referensi" class="btn btn-primary nav-cta">Mulai Mencari ↗</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Buka menu" aria-expanded="false">☰</button>
+    </div>
+  </header>
+  <main>
+    <section class="hero" id="beranda">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow">✦ Teman Perjalanan Risetmu</div>
+          <h1>Referensi Tepat,<br>Riset Lebih <span>Hebat.</span></h1>
+          <p>Temukan referensi ilmiah yang relevan, periksa informasi publikasinya, dan pahami isi penelitian dengan lebih mudah bersama Reference Express.</p>
+          <div class="hero-actions"><a href="#referensi" class="btn btn-primary">Cari Referensi →</a><a href="#fitur" class="btn btn-outline">Jelajahi Fitur</a></div>
+          <div class="hero-note">Untuk mahasiswa, dosen, guru, peneliti, dan penulis ilmiah.</div>
+        </div>
+        <div class="preview">
+          <div class="preview-top"><strong>Preview Referensi</strong><span class="status">Contoh Tampilan</span></div>
+          <div class="paper"><div class="paper-tag">JURNAL ILMIAH · 2024</div><h3>Penggunaan Media Digital dalam Meningkatkan Literasi Sains Peserta Didik</h3><p>Penulis: Contoh Penulis · Bidang Pendidikan IPA</p></div>
+          <div class="paper"><div class="paper-tag">SMART HIGHLIGHT</div><p>Penggunaan media pembelajaran digital dapat mendukung <span class="highlight">pemahaman konsep dan keterampilan literasi sains</span> apabila dirancang sesuai kebutuhan pembelajaran.</p></div>
+          <div class="preview-bottom"><span>▤ Informasi publikasi</span><span>✦ Bagian relevan</span></div>
+        </div>
+      </div>
+    </section>
+    <section id="fitur">
+      <div class="container">
+        <div class="section-heading"><div class="eyebrow">Fitur Unggulan</div><h2>Bukan Sekadar Mencari Referensi</h2><p>Dukung proses penelitian mulai dari menemukan sumber hingga menyusun kajian pustaka.</p></div>
+        <div class="features-grid">
+          <article class="feature-card"><div class="feature-icon">⌕</div><h3>Pencarian Terarah</h3><p>Temukan referensi berdasarkan topik, jenis sumber, dan tahun publikasi.</p></article>
+          <article class="feature-card"><div class="feature-icon">✓</div><h3>Verifikasi Referensi</h3><p>Periksa informasi penulis, tahun terbit, publikasi, dan DOI jika tersedia.</p></article>
+          <article class="feature-card"><div class="feature-icon">✎</div><h3>Smart Highlight</h3><p>Tandai bagian artikel yang relevan dengan topik penelitian yang sedang dikerjakan.</p></article>
+          <article class="feature-card"><div class="feature-icon">▤</div><h3>Matriks Penelitian</h3><p>Susun penelitian terdahulu berdasarkan tujuan, metode, hasil, dan relevansinya.</p></article>
+          <article class="feature-card"><div class="feature-icon">❝</div><h3>Generator Sitasi</h3><p>Bantu menyusun sitasi dan daftar pustaka sesuai gaya penulisan yang diperlukan.</p></article>
+          <article class="feature-card"><div class="feature-icon">◷</div><h3>Layanan Terstruktur</h3><p>Ketahui detail paket, proses pengerjaan, dan hasil layanan yang akan diterima.</p></article>
+        </div>
+      </div>
+    </section>
+    <section class="search-section" id="referensi">
+      <div class="container">
+        <div class="section-heading"><div class="eyebrow">Pencarian Referensi</div><h2>Apa yang Sedang Kamu Teliti?</h2><p>Masukkan topik penelitian dan gunakan filter untuk melihat contoh hasil pencarian.</p></div>
+        <div class="search-box">
+          <form id="searchForm">
+            <div class="search-main"><input type="search" id="searchInput" placeholder="Contoh: literasi sains, augmented reality..." aria-label="Topik pencarian"><button class="btn btn-primary" type="submit">🔍 Cari Referensi</button></div>
+            <div class="filters">
+              <select id="typeFilter" aria-label="Jenis sumber"><option value="">Semua jenis sumber</option><option value="Jurnal">Jurnal</option><option value="Buku">Buku</option><option value="Prosiding">Prosiding</option><option value="Skripsi">Skripsi</option><option value="Website">Website</option></select>
+              <select id="yearFilter" aria-label="Tahun publikasi"><option value="">Semua tahun</option><option value="2026">2026</option><option value="2025">2025</option><option value="2024">2024</option><option value="2023">2023</option><option value="2022">2022</option></select>
+            </div>
+          </form>
+        </div>
+        <p class="demo-note">Hasil di bawah merupakan data demonstrasi, bukan hasil pencarian jurnal secara langsung.</p>
+        <div class="results-header"><h3>Contoh Referensi</h3><span id="resultCount">3 referensi ditampilkan</span></div>
+        <div class="results-grid" id="resultsGrid"></div>
+      </div>
+    </section>
+    <section id="cara-kerja">
+      <div class="container">
+        <div class="section-heading"><div class="eyebrow">Cara Kerja</div><h2>Empat Langkah Menuju Riset yang Terarah</h2><p>Proses yang jelas agar kebutuhan referensimu lebih mudah dipenuhi.</p></div>
+        <div class="steps">
+          <div class="step"><div class="step-number">1</div><h3>Tentukan Topik</h3><p>Masukkan topik atau pertanyaan penelitian.</p></div>
+          <div class="step"><div class="step-number">2</div><h3>Pilih Kebutuhan</h3><p>Tentukan jenis sumber dan layanan yang dibutuhkan.</p></div>
+          <div class="step"><div class="step-number">3</div><h3>Proses Pencarian</h3><p>Referensi ditelusuri dan diperiksa sesuai permintaan.</p></div>
+          <div class="step"><div class="step-number">4</div><h3>Terima Hasil</h3><p>Dapatkan hasil sesuai paket dan kesepakatan layanan.</p></div>
+        </div>
+      </div>
+    </section>
+    <section class="packages" id="layanan">
+      <div class="container">
+        <div class="section-heading"><div class="eyebrow">Layanan Kami</div><h2>Pilih Layanan Sesuai Kebutuhan</h2><p>Paket dapat disesuaikan dengan topik, jumlah referensi, dan bentuk hasil yang dibutuhkan.</p></div>
+        <div class="package-grid">
+          <article class="package-card"><div class="package-label">Paket 01</div><h3>Basic Search</h3><p class="package-description">Untuk kebutuhan pencarian referensi awal.</p><div class="package-price">Hubungi Kami<small>Harga sesuai permintaan</small></div><ul><li>Pencarian berdasarkan topik</li><li>Daftar referensi relevan</li><li>Informasi bibliografi</li><li>Tautan sumber jika tersedia</li></ul><button class="btn btn-outline order-btn" data-package="Basic Search">Pilih Paket</button></article>
+          <article class="package-card featured"><div class="package-label">Paket 02 · Lengkap</div><h3>Research Assist</h3><p class="package-description">Untuk membantu penyusunan kajian pustaka.</p><div class="package-price">Hubungi Kami<small>Harga sesuai permintaan</small></div><ul><li>Semua fitur Basic Search</li><li>Highlight bagian relevan</li><li>Ringkasan informasi penelitian</li><li>Matriks penelitian terdahulu</li></ul><button class="btn btn-primary order-btn" data-package="Research Assist">Pilih Paket</button></article>
+          <article class="package-card"><div class="package-label">Paket 03</div><h3>Custom Research</h3><p class="package-description">Untuk kebutuhan riset yang lebih spesifik.</p><div class="package-price">Konsultasi<small>Disesuaikan dengan kebutuhan</small></div><ul><li>Diskusi kebutuhan penelitian</li><li>Pencarian referensi khusus</li><li>Format hasil sesuai kesepakatan</li><li>Estimasi pengerjaan</li></ul><button class="btn btn-outline order-btn" data-package="Custom Research">Konsultasi</button></article>
+        </div>
+      </div>
+    </section>
+    <section id="faq">
+      <div class="container">
+        <div class="section-heading"><div class="eyebrow">FAQ</div><h2>Pertanyaan yang Sering Diajukan</h2><p>Informasi singkat sebelum menggunakan layanan.</p></div>
+        <div class="faq-list">
+          <div class="faq-item"><button class="faq-question" aria-expanded="false">Apa itu Reference Express?<span>+</span></button><div class="faq-answer">Reference Express merupakan layanan pendukung pencarian dan pengelolaan referensi untuk kebutuhan akademik dan penulisan ilmiah.</div></div>
+          <div class="faq-item"><button class="faq-question" aria-expanded="false">Jenis referensi apa saja yang dapat dicari?<span>+</span></button><div class="faq-answer">Referensi dapat berupa jurnal, buku, prosiding, skripsi, tesis, artikel, dan website sesuai kebutuhan serta ketersediaan sumber.</div></div>
+          <div class="faq-item"><button class="faq-question" aria-expanded="false">Apakah semua referensi dapat diunduh?<span>+</span></button><div class="faq-answer">Tidak selalu. Ketersediaan dokumen bergantung pada akses penerbit, repositori, dan ketentuan lisensi. Tautan sumber asli akan diberikan jika tersedia.</div></div>
+          <div class="faq-item"><button class="faq-question" aria-expanded="false">Bagaimana cara memesan layanan?<span>+</span></button><div class="faq-answer">Pilih paket yang dibutuhkan, kemudian hubungi admin untuk menyampaikan topik, jumlah referensi, tenggat, dan format hasil yang diinginkan.</div></div>
+          <div class="faq-item"><button class="faq-question" aria-expanded="false">Apakah hasil pencarian dapat langsung digunakan?<span>+</span></button><div class="faq-answer">Hasil pencarian perlu diperiksa kembali oleh pengguna. Pastikan sumber sesuai dengan topik, pedoman akademik, dan ketentuan sitasi yang berlaku.</div></div>
+        </div>
+      </div>
+    </section>
+    <section class="cta"><div class="container"><div class="cta-box"><h2>Mulai Risetmu dengan Lebih Terarah</h2><p>Sampaikan kebutuhan referensimu dan temukan layanan yang sesuai untuk mendukung proses penelitian.</p><a href="#" class="btn" id="contactBtn">Hubungi Reference Express ↗</a></div></div></section>
+  </main>
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand"><a href="#beranda" class="logo"><span class="logo-icon">R</span><span>Reference <span>Express</span></span></a><p>Teman pencarian referensi ilmiah untuk mendukung proses belajar, penelitian, dan penulisan akademik.</p></div>
+        <div><h4>Navigasi</h4><div class="footer-links"><a href="#beranda">Beranda</a><a href="#fitur">Fitur</a><a href="#referensi">Cari Referensi</a><a href="#layanan">Layanan</a></div></div>
+        <div><h4>Informasi</h4><div class="footer-links"><a href="#faq">FAQ</a><a href="#cara-kerja">Cara Kerja</a><a href="#" id="footerContact">Hubungi Kami</a></div></div>
+      </div>
+      <div class="copyright">© <span id="currentYear"></span> Reference Express. All rights reserved.</div>
+    </div>
+  </footer>
+  <script>
+    const WHATSAPP_NUMBER = "6281234567890"; // Ganti dengan nomor WhatsApp admin.
+    // Data demonstrasi. Isi fileUrl dengan path PDF yang sah untuk menampilkan tombol unduh.
+    const references = [
+      { title: "Penggunaan Media Digital dalam Mendukung Literasi Sains", author: "Contoh Penulis", year: "2024", type: "Jurnal", field: "Pendidikan IPA", description: "Contoh data untuk menunjukkan bagaimana informasi referensi ditampilkan pada website.", doi: "", url: "", fileUrl: "", keywords: "media digital literasi sains pendidikan ipa" },
+      { title: "Augmented Reality sebagai Media Pembelajaran IPA", author: "Contoh Penulis", year: "2025", type: "Prosiding", field: "Teknologi Pendidikan", description: "Contoh tampilan referensi yang berkaitan dengan pemanfaatan teknologi dalam pembelajaran.", doi: "", url: "", fileUrl: "", keywords: "augmented reality media pembelajaran ipa" },
+      { title: "Strategi Penyusunan Kajian Pustaka dalam Penelitian", author: "Contoh Penulis", year: "2023", type: "Buku", field: "Metodologi Penelitian", description: "Contoh sumber untuk membantu memahami penyusunan dan pengelolaan kajian pustaka.", doi: "", url: "", fileUrl: "", keywords: "kajian pustaka metodologi penelitian" }
+    ];
+    const searchInput = document.getElementById("searchInput");
+    const typeFilter = document.getElementById("typeFilter");
+    const yearFilter = document.getElementById("yearFilter");
+    const resultsGrid = document.getElementById("resultsGrid");
+    const resultCount = document.getElementById("resultCount");
+    function escapeHTML(value) {
+      return String(value).replace(/[&<>"']/g, function (char) {
+        return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char];
+      });
+    }
+    function renderReferences() {
+      const query = searchInput.value.trim().toLowerCase();
+      const selectedType = typeFilter.value;
+      const selectedYear = yearFilter.value;
+      const filtered = references.filter(function (item) {
+        const searchable = (item.title + " " + item.author + " " + item.field + " " + item.keywords).toLowerCase();
+        return (!query || searchable.includes(query)) && (!selectedType || item.type === selectedType) && (!selectedYear || item.year === selectedYear);
+      });
+      resultCount.textContent = filtered.length + " referensi ditampilkan";
+      if (filtered.length === 0) {
+        resultsGrid.innerHTML = '<div class="empty-state"><h3>Referensi tidak ditemukan</h3><p>Coba kata kunci atau filter yang berbeda.</p></div>';
+        return;
+      }
+      resultsGrid.innerHTML = filtered.map(function (item) {
+        const title = escapeHTML(item.title), author = escapeHTML(item.author), year = escapeHTML(item.year);
+        const type = escapeHTML(item.type), field = escapeHTML(item.field), description = escapeHTML(item.description);
+        const sourceButton = item.url
+          ? `<a class="btn btn-outline" href="${escapeHTML(item.url)}" target="_blank" rel="noopener noreferrer">Lihat Sumber ↗</a>`
+          : `<button class="btn btn-outline" disabled title="Tautan sumber belum ditambahkan">Sumber belum tersedia</button>`;
+        const downloadButton = item.fileUrl
+          ? `<a class="download-btn" href="${escapeHTML(item.fileUrl)}" download aria-label="Unduh PDF: ${title}">
+               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                 <polyline points="7 10 12 15 17 10"/>
+                 <line x1="12" y1="15" x2="12" y2="3"/>
+               </svg><span>Unduh PDF</span>
+             </a>`
+          : "";
+        const doiText = item.doi ? `<p><strong>DOI:</strong> ${escapeHTML(item.doi)}</p>` : "";
+        const citation = item.author + " (" + item.year + "). " + item.title + ".";
+        return `<article class="result-card"><div class="result-top"><span class="tag">${type}</span><span class="result-meta">${year}</span></div>
+          <h3>${title}</h3><div class="result-meta">${author} · ${field}</div><p>${description}</p>${doiText}
+          <div class="result-actions">${sourceButton}${downloadButton}
+            <button class="btn btn-outline copy-citation" type="button">Salin Sitasi</button>
+          </div></article>`;
+      }).join("");
+      resultsGrid.querySelectorAll(".copy-citation").forEach(function (button, index) {
+        const item = filtered[index];
+        button.addEventListener("click", function () {
+          copyCitation(item.author + " (" + item.year + "). " + item.title + ".");
+        });
+      });
+    }
+    document.getElementById("searchForm").addEventListener("submit", function (event) { event.preventDefault(); renderReferences(); });
+    typeFilter.addEventListener("change", renderReferences);
+    yearFilter.addEventListener("change", renderReferences);
+    function copyCitation(citation) {
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(citation).then(function () { alert("Sitasi berhasil disalin."); }).catch(function () { window.prompt("Salin sitasi berikut:", citation); });
+      } else { window.prompt("Salin sitasi berikut:", citation); }
+    }
+    document.querySelectorAll(".faq-question").forEach(function (button) {
+      button.addEventListener("click", function () {
+        const item = button.closest(".faq-item"), isOpen = item.classList.contains("active");
+        document.querySelectorAll(".faq-item").forEach(function (faq) {
+          faq.classList.remove("active");
+          faq.querySelector(".faq-question").setAttribute("aria-expanded", "false");
+          faq.querySelector(".faq-question span:last-child").textContent = "+";
+        });
+        if (!isOpen) {
+          item.classList.add("active"); button.setAttribute("aria-expanded", "true");
+          button.querySelector("span:last-child").textContent = "−";
+        }
+      });
+    });
+    const menuToggle = document.getElementById("menuToggle"), navLinks = document.getElementById("navLinks");
+    menuToggle.addEventListener("click", function () {
+      const isOpen = navLinks.classList.toggle("open");
+      menuToggle.setAttribute("aria-expanded", String(isOpen)); menuToggle.textContent = isOpen ? "✕" : "☰";
+    });
+    navLinks.querySelectorAll("a").forEach(function (link) {
+      link.addEventListener("click", function () {
+        navLinks.classList.remove("open"); menuToggle.setAttribute("aria-expanded", "false"); menuToggle.textContent = "☰";
+      });
+    });
+    function contactWhatsApp(message) {
+      const number = WHATSAPP_NUMBER.replace(/\D/g, "");
+      if (!number || number === "6281234567890") {
+        alert("Silakan ganti WHATSAPP_NUMBER pada bagian JavaScript dengan nomor WhatsApp admin Reference Express.");
+        return;
+      }
+      window.open("https://wa.me/" + number + "?text=" + encodeURIComponent(message), "_blank", "noopener,noreferrer");
+    }
+    document.querySelectorAll(".order-btn").forEach(function (button) {
+      button.addEventListener("click", function () {
+        contactWhatsApp("Halo Reference Express, saya ingin bertanya tentang paket " + button.dataset.package + ". Mohon informasi harga dan proses pemesanannya.");
+      });
+    });
+    document.getElementById("contactBtn").addEventListener("click", function (event) {
+      event.preventDefault(); contactWhatsApp("Halo Reference Express, saya ingin berkonsultasi mengenai layanan pencarian referensi.");
+    });
+    document.getElementById("footerContact").addEventListener("click", function (event) {
+      event.preventDefault(); contactWhatsApp("Halo Reference Express, saya ingin bertanya mengenai layanan.");
+    });
+    document.getElementById("currentYear").textContent = new Date().getFullYear();
+    renderReferences();
+  </script>
+</body>
+</html>
